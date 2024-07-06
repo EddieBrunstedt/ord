@@ -1,0 +1,26 @@
+stages:
+  - check
+
+lint:
+  stage: check
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  image: rust:latest
+  script:
+    - rustup component add clippy
+    - cargo clippy --all-targets -- -Dwarnings
+
+test:
+  stage: check
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  image: rustlang/rust:nightly
+  before_script:
+    - cargo install --root . cargo2junit
+  script:
+    - cargo test --verbose -- -Z unstable-options --format json --report-time | tee >(bin/cargo2junit > report.xml)
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - report.xml
