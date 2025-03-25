@@ -114,7 +114,7 @@ impl AIClient for OpenAIClient {
 
         let response = self
             .client
-            .post(&self.get_full_url())
+            .post(self.get_full_url())
             .headers(headers)
             .json(&request_body)
             .send()

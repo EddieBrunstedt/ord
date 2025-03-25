@@ -118,8 +118,11 @@ pub enum Error {
         origin_error: std::env::VarError,
     },
 
-    #[error("Failed to validate config: API key is missing.\n\nYou can find or generate your API key at: {API_KEYS_URL}\nPlease enter the API key in: {config_file_path}")]
-    FailValidateConfigApiKeyEmpty { config_file_path: PathBuf },
+    #[error("Failed to get API key. Please either set the 'OPENAI_API_KEY' environment variable or add your API key to: {config_file_path}\n\nYou can find or generate your API key at: {API_KEYS_URL}")]
+    FailNoApiKey {
+        env_variable_name: String,
+        config_file_path: PathBuf,
+    },
 
     #[error("Failed to validate config: Model is not specified.\n\nYou can find a list of available models at: {MODELS_URL}\nPlease specify the model in: {config_file_path}")]
     FailValidateConfigModelEmpty { config_file_path: PathBuf },

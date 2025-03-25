@@ -263,13 +263,22 @@ Ord's configuration file is located at:
 
 Note: On Linux and macOS, if `$XDG_CONFIG_HOME` is not set, Ord will use the fallback location.
 
-The configuration file should contain your OpenAI API key and the desired model:
+### API Key
+
+Ord requires an OpenAI API key to function. You can provide the key in one of two ways:
+
+1. **Environment Variable**: Set the `OPENAI_API_KEY` environment variable.
+2. **Configuration File**: Add the key to your `config.toml` file.
+
+The configuration file should contain your model configuration and optionally your API key:
 
 ```toml
 # Ord Configuration
-api_key = "your-api-key-here"
+api_key = "your-api-key-here"  # Optional if set via environment variable
 model = "gpt-4o"
 ```
+
+Note: If both the environment variable and configuration file are set, the environment variable takes precedence.
 
 You can find or generate your API key at: https://platform.openai.com/api-keys
 
