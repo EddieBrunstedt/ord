@@ -1,14 +1,12 @@
-<div align="center">
-  <h1>Ord: AI-Powered Text Processing Tool</h1>
-</div>
+# Ord: AI-Powered Text Processing Tool</h1>
 
-<div align="center">
-  <img src="assets/logo_original.svg" width="30%" style="border-radius: 15px;" />
-</div>
+Ord is a command-line application that leverages OpenAI models for text processing through customizable templates. It offers a flexible and efficient way to generate, transform, and analyze text using AI capabilities.
 
-<hr/>
+## Why use this over any standard LLM UI?
 
-<div align="center">Ord is a command-line application that leverages OpenAI models for text processing through customizable templates. It offers a flexible and efficient way to generate, transform, and analyze text using AI capabilities.</div>
+I frequently run repetitive tasks through LLMs, like "Correct the grammar and spelling in the following text." I wanted a flexible tool where I could create custom templates that dynamically replace placeholders. With a single command that could be bound to a hotkey, Ord reads from my clipboard, processes the text through an LLM template, and overwrites the clipboard with the result—enabling one-off requests at the press of a button.
+
+![Demo](assets/usage_demo.webm)
 
 ---
 
@@ -25,7 +23,7 @@
 
 ## Usage
 
-❤️ For a better understanding of Ord's capabilities, please refer to the Examples section below.
+For a better understanding of Ord's capabilities, please refer to the Examples section below.
 
 Ord provides several commands to interact with templates and process text. Here's a quick overview:
 
@@ -283,10 +281,6 @@ Note: If both the environment variable and configuration file are set, the envir
 You can find or generate your API key at: https://platform.openai.com/api-keys
 
 ---
-
-<div align="center">
-  <h3>❤️</h3>
-</div>
 
 Ord's full potential is realized when combined with quick methods for executing commands without manual terminal input. This is particularly useful for commands that process clipboard text and either overwrite the clipboard or display results in a web browser.
 
