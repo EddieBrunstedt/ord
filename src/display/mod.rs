@@ -25,9 +25,9 @@ pub struct DefaultResultDisplay;
 impl ResultDisplay for DefaultResultDisplay {
     fn display_to_stdout(&self, result: &str, no_new_line: &bool) -> Result<()> {
         if *no_new_line {
-            print!("{}", result);
+            print!("{result}");
         } else {
-            println!("{}", result);
+            println!("{result}");
         }
         Ok(())
     }

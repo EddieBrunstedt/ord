@@ -52,7 +52,7 @@ impl DefaultHandler {
 
         if let Some(from_clipboard) = &args.from_clipboard {
             let clipboard_content = self.context.clipboard.read()?;
-            entries.push(format!("{}={}", from_clipboard, clipboard_content));
+            entries.push(format!("{from_clipboard}={clipboard_content}"));
         }
 
         Ok(entries)
@@ -71,7 +71,7 @@ impl DefaultHandler {
                     placeholder
                 );
                 let user_input = get_user_text(&prompt)?;
-                Ok(format!("{}={}", placeholder, user_input))
+                Ok(format!("{placeholder}={user_input}"))
             })
             .collect()
     }
@@ -226,7 +226,7 @@ mod tests {
 
         let result = handler.generate(&args).await;
 
-        assert!(result.is_ok(), "Expected 'Ok' but got: {:?}", result);
+        assert!(result.is_ok(), "Expected 'Ok' but got: {result:?}");
         Ok(())
     }
 
@@ -234,7 +234,7 @@ mod tests {
     fn info_ok() -> Result<()> {
         let handler = setup_test_handler();
         let result = handler.info(&Some("test_2".to_string()));
-        assert!(result.is_ok(), "Expected 'Ok' but got: {:?}", result);
+        assert!(result.is_ok(), "Expected 'Ok' but got: {result:?}");
         Ok(())
     }
 
@@ -242,7 +242,7 @@ mod tests {
     fn list_ok() -> Result<()> {
         let handler = setup_test_handler();
         let result = handler.list();
-        assert!(result.is_ok(), "Expected 'Ok' but got: {:?}", result);
+        assert!(result.is_ok(), "Expected 'Ok' but got: {result:?}");
         Ok(())
     }
 }

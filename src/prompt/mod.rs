@@ -93,7 +93,7 @@ impl Prompt {
             .iter()
             .fold(template.content.clone(), |body, placeholder| {
                 body.replace(
-                    &format!("{{{{:{}}}}}", placeholder),
+                    &format!("{{{{:{placeholder}}}}}"),
                     &entries_map[placeholder],
                 )
             })

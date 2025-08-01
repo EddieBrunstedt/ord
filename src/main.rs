@@ -22,7 +22,7 @@ use handler::{DefaultHandler, Handler};
 #[tokio::main]
 async fn main() {
     if let Err(err) = run().await {
-        eprintln!("ERROR: {}", err);
+        eprintln!("ERROR: {err}");
         std::process::exit(1);
     }
 }

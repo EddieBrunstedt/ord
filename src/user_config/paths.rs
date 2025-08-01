@@ -74,7 +74,7 @@ fn ensure_file_exists(path: PathBuf) -> Result<PathBuf> {
         if path.file_name().unwrap_or_default() == CONFIG_FILE_NAME {
             let mut writer = BufWriter::new(file);
             let default_config = default_toml_config();
-            writeln!(writer, "{}", default_config).map_err(|e| Error::FailWriteFile {
+            writeln!(writer, "{default_config}").map_err(|e| Error::FailWriteFile {
                 path: path.to_string_lossy().to_string(),
                 origin_error: e,
             })?;

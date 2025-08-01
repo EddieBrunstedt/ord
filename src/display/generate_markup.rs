@@ -20,7 +20,7 @@ pub fn generate_markup(content: &str, template_title: &str) -> PreEscaped<String
     };
 
     let page_title = match h1_texts.first() {
-        Some(text) => format!("{} - Ord", text),
+        Some(text) => format!("{text} - Ord"),
         None => format!("{} - Ord", capitalize(template_title)),
     };
 
