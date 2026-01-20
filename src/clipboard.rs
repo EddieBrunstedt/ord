@@ -2,25 +2,22 @@ use crate::error::{Error, Result};
 use copypasta_ext::ClipboardProviderExt;
 use std::sync::Mutex;
 
-pub trait Clipboard: Send + Sync {
-    fn read(&self) -> Result<String>;
-    fn write(&self, content: String) -> Result<()>;
-}
-
-pub struct ClipboardManager {
+/// Thread-safe wrapper around the system clipboard.
+pub struct Clipboard {
     provider: Mutex<Box<dyn ClipboardProviderExt>>,
 }
 
-impl ClipboardManager {
-    pub fn new(provider: Box<dyn ClipboardProviderExt>) -> Self {
-        Self {
+impl Clipboard {
+    /// Creates a new clipboard instance.
+    pub fn new() -> Result<Self> {
+        let provider = copypasta_ext::try_context().ok_or(Error::FailInitClipboard)?;
+        Ok(Self {
             provider: Mutex::new(provider),
-        }
+        })
     }
-}
 
-impl Clipboard for ClipboardManager {
-    fn read(&self) -> Result<String> {
+    /// Reads the current clipboard contents.
+    pub fn read(&self) -> Result<String> {
         self.provider
             .lock()
             .map_err(|e| Error::MutexLock(e.to_string()))?
@@ -28,11 +25,12 @@ impl Clipboard for ClipboardManager {
             .map_err(|e| Error::FailReadClipboard(e.to_string()))
     }
 
-    fn write(&self, content: String) -> Result<()> {
+    /// Writes content to the clipboard.
+    pub fn write(&self, content: &str) -> Result<()> {
         self.provider
             .lock()
             .map_err(|e| Error::MutexLock(e.to_string()))?
-            .set_contents(content)
+            .set_contents(content.to_string())
             .map_err(|e| Error::FailWriteClipboard(e.to_string()))
     }
 }

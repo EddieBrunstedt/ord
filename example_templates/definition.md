@@ -1,11 +1,22 @@
 ---
-description: Get definition of a word/phrase in markdown format
+description: Get definition of a word or phrase (markdown)
 ---
 
-Please provide the definition of a word or explain the meaning of the text using markdown syntax.
-Ensure the entire response is formatted in markdown without using a markdown block.
-The response should have a fitting H1 heading of maximum 4 words.
+Define the given word or explain the meaning of the given phrase.
 
-The word or phrase is:
+Formatting rules:
 
+- Output must be valid Markdown.
+- Do not wrap the entire response in a single Markdown code block.
+- Markdown code blocks inside the response are allowed.
+- Start with a single H1 heading (maximum 4 words).
+
+Content rules:
+
+- Be concise but clear.
+- Do not add unrelated information.
+- Do not reference the prompt or explain what you are doing.
+- If the input is a single word (or a common term), include a brief etymology/background section when it is useful and reasonably well-known. If not, omit it.
+
+Word or phrase:
 {{:text}}
