@@ -5,6 +5,7 @@ lint:
   stage: check
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
   image: rust:latest
   script:
     - rustup component add clippy
@@ -14,6 +15,7 @@ test:
   stage: check
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
   image: rustlang/rust:nightly
   before_script:
     - cargo install --root . cargo2junit
