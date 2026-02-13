@@ -27,7 +27,7 @@ git clone https://gitlab.com/EddieBrunstedt/ord && cd ord && cargo install --pat
 **2. Set your API key**
 
 ```bash
-export ANTHROPIC_API_KEY="your-key"   # or OPENAI_API_KEY
+export ANTHROPIC_API_KEY="your-key"   # or OPENAI_API_KEY or OPENROUTER_API_KEY
 ```
 
 **3. Run your first template**
@@ -123,7 +123,7 @@ Ord stores its config in `ord/` under your OS config directory:
 **config.toml:**
 
 ```toml
-provider = "anthropic"       # or "openai"
+provider = "anthropic"       # or "openai", "openrouter"
 model = "claude-sonnet-4-5"  # any model from your provider
 max_tokens = 4096            # optional, default 4096
 ```
@@ -136,6 +136,7 @@ If the configuration file is missing, Ord will automatically create one with def
 | --------- | -------------------- | ------------------------------------------------------------------------------ |
 | Anthropic | `ANTHROPIC_API_KEY`  | [platform.claude.com/settings/keys](https://platform.claude.com/settings/keys) |
 | OpenAI    | `OPENAI_API_KEY`     | [platform.openai.com/api-keys](https://platform.openai.com/api-keys)           |
+| OpenRouter | `OPENROUTER_API_KEY` | [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)             |
 
 ## Tips
 

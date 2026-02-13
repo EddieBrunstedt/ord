@@ -121,6 +121,9 @@ pub enum Error {
     #[error("Model is not specified in config file: {config_file_path}")]
     FailValidateConfigModelEmpty { config_file_path: PathBuf },
 
+    #[error("LLM client initialization failed:\n{0}")]
+    LlmClientInit(#[from] rig::http_client::Error),
+
     #[error("LLM request failed:\n{0}")]
     LlmRequestFailed(#[from] rig::completion::PromptError),
 

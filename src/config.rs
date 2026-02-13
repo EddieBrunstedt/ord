@@ -183,6 +183,12 @@ mod tests {
     }
 
     #[test]
+    fn provider_from_str_parses_openrouter() {
+        let provider: Provider = "openrouter".parse().unwrap();
+        assert!(matches!(provider, Provider::OpenRouter));
+    }
+
+    #[test]
     fn provider_from_str_fails_for_unknown() {
         let result: Result<Provider> = "unknown".parse();
         assert_matches!(result, Err(Error::UnsupportedProvider { .. }));
