@@ -18,7 +18,7 @@ maud = "*"
 notify-rust = "4"
 pulldown-cmark = "0.13"
 regex = "1"
-rig-core = "0.30"
+rig-core = "0.37"
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
 thiserror = "2.0"

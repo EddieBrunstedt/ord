@@ -1,5 +1,5 @@
 use crate::error::{Error, Result};
-use rig::{
+use rig_core::{
     client::{CompletionClient, Nothing},
     completion::Prompt,
     providers::{anthropic, ollama, openai, openrouter},

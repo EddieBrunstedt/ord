@@ -125,10 +125,10 @@ pub enum Error {
     FailValidateConfigModelEmpty { config_file_path: PathBuf },
 
     #[error("LLM client initialization failed:\n{0}")]
-    LlmClientInit(#[from] rig::http_client::Error),
+    LlmClientInit(#[from] rig_core::http_client::Error),
 
     #[error("LLM request failed:\n{0}")]
-    LlmRequestFailed(#[from] rig::completion::PromptError),
+    LlmRequestFailed(#[from] rig_core::completion::PromptError),
 
     #[error("Failed to acquire mutex lock:\n{0}")]
     MutexLock(String),
