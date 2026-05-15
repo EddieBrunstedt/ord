@@ -6,7 +6,7 @@ categories = ["command-line-utilities"]
 homepage = "https://gitlab.com/EddieBrunstedt/ord"
 edition = "2024"
 license-file = "LICENSE"
-version = "2.1.0"
+version = "2.2.0"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }

@@ -109,7 +109,10 @@ pub enum Error {
     #[error("Failed to initialize clipboard.")]
     FailInitClipboard,
 
-    #[error("Unsupported provider '{provided}'.\n\nSupported providers: {}", crate::client::Provider::SUPPORTED.join(", "))]
+    #[error(
+        "Unsupported provider '{provided}'.\n\nSupported providers: {}",
+        crate::client::Provider::supported_list()
+    )]
     UnsupportedProvider { provided: String },
 
     #[error("Failed to read environment variable '{env_variable}':\n{origin_error}")]
