@@ -177,6 +177,12 @@ mod tests {
     }
 
     #[test]
+    fn provider_from_str_parses_ollama() {
+        let provider: Provider = "ollama".parse().unwrap();
+        assert!(matches!(provider, Provider::Ollama));
+    }
+
+    #[test]
     fn provider_from_str_parses_openai() {
         let provider: Provider = "openai".parse().unwrap();
         assert!(matches!(provider, Provider::OpenAI));

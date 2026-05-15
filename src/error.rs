@@ -109,7 +109,10 @@ pub enum Error {
     #[error("Failed to initialize clipboard.")]
     FailInitClipboard,
 
-    #[error("Unsupported provider '{provided}'.\n\nSupported providers: {}", crate::client::Provider::SUPPORTED.join(", "))]
+    #[error(
+        "Unsupported provider '{provided}'.\n\nSupported providers: {}",
+        crate::client::Provider::supported_list()
+    )]
     UnsupportedProvider { provided: String },
 
     #[error("Failed to read environment variable '{env_variable}':\n{origin_error}")]
@@ -122,10 +125,10 @@ pub enum Error {
     FailValidateConfigModelEmpty { config_file_path: PathBuf },
 
     #[error("LLM client initialization failed:\n{0}")]
-    LlmClientInit(#[from] rig::http_client::Error),
+    LlmClientInit(#[from] rig_core::http_client::Error),
 
     #[error("LLM request failed:\n{0}")]
-    LlmRequestFailed(#[from] rig::completion::PromptError),
+    LlmRequestFailed(#[from] rig_core::completion::PromptError),
 
     #[error("Failed to acquire mutex lock:\n{0}")]
     MutexLock(String),
