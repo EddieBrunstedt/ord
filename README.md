@@ -1,168 +1,104 @@
-# Ord
+<h1>Ord</h1>
 
-**Process text through customizable LLM templates.**
+Turns reusable prompt templates into a fast command-line workflow you can trigger from anywhere.
 
-Ord lets you create reusable prompts and run them from the command line. Read from clipboard, pipe from stdin, or pass text directly—get results back instantly.
+[[_TOC_]]
 
-## Why Ord?
+## What it does
 
-| Step | Traditional workflow  | With Ord                            |
-| ---- | --------------------- | ----------------------------------- |
-| 1    | Copy text             | Copy text                           |
-| 2    | Open ChatGPT/Claude   | Run `ord run grammar -f text -c -n` |
-| 3    | Paste and type prompt | Paste result                        |
-| 4    | Wait, copy result     |                                     |
-| 5    | Switch back, paste    |                                     |
+Ord is built around a simple loop:
 
-**Bind Ord commands to keyboard shortcuts for even faster workflows.**
+1. Copy text.
+2. Press your Ord keybind.
+3. Paste the improved result.
 
-## Quick Start
+or:
 
-**1. Install** (requires [Rust](https://rustup.rs/))
+1. Copy text.
+2. Press your Ord keybind.
+3. See the results in your default web browser.
 
-```bash
-git clone https://gitlab.com/EddieBrunstedt/ord && cd ord && cargo install --path .
+## Why?
+
+### Old workflow
+
+```mermaid
+flowchart LR
+    A["You have text"] --> B["Copy"]
+    B --> C["Open browser"]
+    C --> D["Open ChatGPT"]
+    D --> E["Paste text"]
+    E --> F["Type prompt manually"]
+    F --> G["Wait"]
+    G --> H["Copy output"]
+    H --> I["Go back to app/editor"]
+    I --> J["Paste output"]
+    J --> K["Need another transform?"]
+    K -->|yes| B
 ```
 
-**2. Set your API key**
+### New workflow with Ord
 
-```bash
-export ANTHROPIC_API_KEY="your-key"   # or OPENAI_API_KEY or OPENROUTER_API_KEY
-```
-
-**3. Run your first template**
-
-```bash
-# Copy some text to your clipboard, then:
-ord run grammar -f text -c -n
-```
-
-<details>
-<summary><b>Troubleshooting: command not found</b></summary>
-
-Ensure `~/.cargo/bin` is in your PATH:
-
-```bash
-export PATH="$HOME/.cargo/bin:$PATH"
-```
-
-Add this to your shell config (`~/.bashrc`, `~/.zshrc`, etc.) to make it permanent.
-
-</details>
-
-On first run, Ord will offer to install example templates to get you started.
-
-## Usage
-
-```
-ord run <TEMPLATE> [OPTIONS]       Run a template
-ord list                           List available templates
-ord info <TEMPLATE>                Show template details
-ord --help                         Full help with examples
-```
-
-**Common flags:**
-
-| Flag                         | Description                                |
-| ---------------------------- | ------------------------------------------ |
-| `-f, --from-clipboard <KEY>` | Use clipboard content for placeholder      |
-| `-c, --copy-to-clipboard`    | Copy result to clipboard                   |
-| `-n, --notify`               | Desktop notification on completion         |
-| `-b, --browser`              | Open result in browser (rendered markdown) |
-
-**Examples:**
-
-```bash
-ord run grammar -f text -c                          # Fix grammar from clipboard
-ord run grammar -f text -c -n                       # Same, with notification
-ord run summarize -f text -b                        # Summarize and view in browser
-ord run commit_message text="$(git diff --staged)"  # Generate commit message from staged changes
+```mermaid
+flowchart LR
+    A["You have text"] --> B["Copy"]
+    B --> C["Press Ord keybind"]
+    C --> D["Wait for result to be put back in your clipboard"]
+    D --> E["Paste final result"]
 ```
 
 ## Templates
 
-Templates are markdown files with YAML front matter. They live in `ord/templates/` under your OS config directory.
+Templates are Markdown files with YAML front matter plus placeholders.
 
-```markdown
----
-description: What this template does
----
-
-Your prompt here. Use {{:placeholder}} for dynamic content.
-```
-
-**Example — grammar.md:**
-
-```markdown
+```md
 ---
 description: Correct grammar and spelling
 ---
 
-Correct grammar and spelling. Improve clarity where needed.
-Preserve meaning and tone. Output only the corrected text.
+Correct grammar and spelling, and improve clarity where wording is awkward.
 
 Text:
 {{:text}}
 ```
 
-Run with: `ord run grammar -f text -c -n`
+On first run, if no templates exist, `ord` offers to install example templates automatically.
 
-See [example_templates/](example_templates/) for more ready-to-use templates:
-grammar, summarize, definition, shorten, eli5, summarize_logs, commit_message.
+Built-in starter templates include:
 
-## Configuration
+- `grammar`
+- `shorten`
+- `summarize`
+- `summarize_logs`
+- `eli5`
+- `definition`
+- `commit_message`
 
-Ord stores its config in `ord/` under your OS config directory:
+## Examples
 
-| OS      | Location                                    |
-| ------- | ------------------------------------------- |
-| Linux   | `~/.config/ord/` or `$XDG_CONFIG_HOME/ord/` |
-| macOS   | `~/Library/Application Support/ord/`        |
-| Windows | `%APPDATA%\ord\`                            |
-
-**config.toml:**
-
-```toml
-provider = "anthropic"       # or "openai", "openrouter"
-model = "claude-sonnet-4-5"  # any model from your provider
-max_tokens = 4096            # optional, default 4096
-```
-
-If the configuration file is missing, Ord will automatically create one with default settings.
-
-**API Keys:**
-
-| Provider  | Environment Variable | Get a key                                                                      |
-| --------- | -------------------- | ------------------------------------------------------------------------------ |
-| Anthropic | `ANTHROPIC_API_KEY`  | [platform.claude.com/settings/keys](https://platform.claude.com/settings/keys) |
-| OpenAI    | `OPENAI_API_KEY`     | [platform.openai.com/api-keys](https://platform.openai.com/api-keys)           |
-| OpenRouter | `OPENROUTER_API_KEY` | [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)             |
-
-## Tips
-
-<details>
-<summary><b>Keyboard shortcuts</b></summary>
-
-Bind Ord commands to system keyboard shortcuts for instant access:
+### Grammar fix from clipboard, then auto-copy result
 
 ```bash
-# Example: bind to Ctrl+Alt+G for grammar correction
 ord run grammar -f text -c -n
 ```
 
-How to set up shortcuts varies by OS/desktop environment—check your system settings.
+### Generate commit message from staged diff
 
-</details>
+```bash
+ord run commit_message text="$(git diff --staged)"
+```
 
-<details>
-<summary><b>Smart commit script</b></summary>
+### Summarize clipboard text and open rendered Markdown in browser
 
-This script uses Ord to generate a high-quality commit message from your staged changes, then lets you commit, edit, or cancel—all in one flow.
+```bash
+ord run summarize -f text -b
+```
 
-Save as `~/bin/smart_commit` (or any directory in your `$PATH`) and make executable with `chmod +x`.
+### Git commit messages from staged diff
 
-**Note:** This script is for Unix-like systems (Linux, macOS).  
-Windows users can run it via WSL, or adapt it to PowerShell.
+Save as `~/bin/smart_commit` (or any directory in your `$PATH`) and `chmod +x`.
+
+Note: For Unix-like systems (Linux, macOS). Windows users can run via WSL or adapt to PowerShell.
 
 ```bash
 #!/bin/bash
@@ -189,8 +125,85 @@ case "$c" in
 esac
 ```
 
-</details>
+### More ideas you can automate
 
-## License
+- PR description drafts: `ord run summarize text="$(git diff main...HEAD)"`
+- Log triage: `ord run summarize_logs text="$(tail -n 500 app.log)" -b`
+- "Explain this fast": `ord run eli5 -f text -b`
+- Tighten writing before sending: `ord run shorten -f text -c`
 
-See [LICENSE](LICENSE) for details.
+## CLI
+
+### Core commands
+
+- `ord run [OPTIONS] [TEMPLATE] [KEY=VALUE]...`
+- `ord info [TITLE]`
+- `ord list`
+
+### `ord run` options
+
+- `-f, --from-clipboard <KEY>`: fill one placeholder from clipboard.
+- `-c, --copy-to-clipboard`: copy output to clipboard.
+- `-n, --notify[=<TYPE>]`: desktop notification (`status` or `content`).
+- `-b, --browser[=<FORMAT>]`: open output in browser (`markdown` or `plain`).
+- `--no-newline`: print without trailing newline.
+
+## Providers
+
+Ord currently supports these LLM providers:
+
+- OpenRouter
+- Anthropic
+- OpenAI
+- Ollama
+
+## Installation
+
+### Method 1: Manual
+
+```bash
+git clone https://gitlab.com/EddieBrunstedt/ord
+cd ord
+cargo install --path .
+```
+
+### Method 2: AUR (Arch-based Linux)
+
+```bash
+paru -S ord
+# or
+git clone https://aur.archlinux.org/ord.git && cd ord && makepkg -si
+```
+
+## Configuration
+
+Ord stores config and templates under `ord/` in your OS config directory:
+
+| OS      | Location                                    |
+| ------- | ------------------------------------------- |
+| Linux   | `~/.config/ord/` or `$XDG_CONFIG_HOME/ord/` |
+| macOS   | `~/Library/Application Support/ord/`        |
+| Windows | `%APPDATA%\ord\`                            |
+
+`config.toml`:
+
+```toml
+provider = "anthropic"       # "anthropic", "ollama", "openai", or "openrouter"
+model = "claude-sonnet-4-5"  # any model your provider supports
+max_tokens = 4096            # optional
+```
+
+If `config.toml` does not exist, Ord creates it with defaults on first run.
+
+Provider environment variables:
+
+- `ANTHROPIC_API_KEY`
+- `OPENAI_API_KEY`
+- `OPENROUTER_API_KEY`
+
+For Ollama, Ord uses the default host automatically (`http://localhost:11434`).
+Override with:
+
+```bash
+export OLLAMA_HOST="http://192.168.1.100:8080"
+```
