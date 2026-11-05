@@ -162,7 +162,7 @@ Ord currently supports these LLM providers:
 ### Method 1: Manual
 
 ```bash
-git clone https://gitlab.com/EddieBrunstedt/ord
+git clone https://github.com/EddieBrunstedt/ord
 cd ord
 cargo install --path .
 ```
